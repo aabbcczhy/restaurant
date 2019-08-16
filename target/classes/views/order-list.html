@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <title>企业订餐管理系统</title>
+</head>
+
+<body>
+    <div class="x-body">
+        <xblock><button class="layui-btn layui-btn-danger" onclick="delAll()"><i
+                    class="layui-icon">&#xe640;</i>批量删除</button><span th:text="'共有数据  '+${orderQun}+'  条'" class="x-right" style="line-height:40px"></span></xblock>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" onclick="selectAll()" id="selectAllBox">
+                    </th>
+                    <th>
+                        订单号
+                    </th>
+                    <th>
+                        用户名
+                    </th>
+                    <th>
+                        联系方式
+                    </th>
+                    <th>
+                        送餐地址
+                    </th>
+                    <th>
+                        订单时间
+                    </th>
+                    <th>
+           	 订单总额
+                    </th>
+                    <th>
+                        状态
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order,orderStat:${orderList}">
+                    <td>
+                        <input type="checkbox" th:attr="value=${order.orderno}" name="check_status">
+                    </td>
+                    <td th:text="${order.orderno}"></td>
+                    <td th:text="${userList[orderStat.index].username}"></td>
+                    <td th:text="${userList[orderStat.index].telephone}"></td>
+                    <td th:text="${userList[orderStat.index].addreess}"></td>
+                    <td th:text="${#calendars.format(order.createtime,'yyyy-MM-dd hh:mm:ss')}"></td>
+                    <td th:text="${order.ordersum}"></td>
+                    <td class="td-status">
+                        <span th:if="${order.status eq 0}" class="layui-btn layui-btn-danger layui-btn-mini">
+                            	未付款
+                        </span>
+                        <span th:if="${order.status eq 1}" class="layui-btn layui-btn-warm layui-btn-mini">
+                            	已付款
+                        </span>
+                        <span th:if="${order.status eq 2}" class="layui-btn layui-btn-normal layui-btn-mini">
+                            	已完成
+                        </span>
+                    </td>
+                    <td>
+                        <button class="layui-btn layui-btn-radius layui-btn-mini"
+                            th:onclick="|showdetail('订单详情','order-detail',${order.orderno},'500','600')|"><i
+                                class="layui-icon"></i>订单详情</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	<script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script src="./js/x-layui.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script>
+		layui.use(['laydate', 'element', 'laypage', 'layer'], function () {
+	        $ = layui.jquery; //jquery
+	        laydate = layui.laydate; //日期插件
+	        lement = layui.element(); //面包导航
+	        laypage = layui.laypage; //分页
+	        layer = layui.layer; //弹出层
+	    });
+		/* 查看订单详情*/
+		function showdetail(title, url,orderno, w, h) {
+		    x_admin_show(title, url+'?orderno='+orderno, w, h);
+		}
+		
+		//批量删除
+		function delAll(){
+			layer.confirm('确认要删除吗？',function(index){
+				//捉到所有被选中的，发异步进行删除
+                $("input:checkbox[name=check_status]:checked").each(function(){
+                	deleteOrders($(this),$(this).val())
+                });
+                layer.msg('删除成功', {icon: 1});
+             });
+		}
+		//批量删除订单
+		function deleteOrders(obj,orderno){
+			$.ajax({
+				url:"deleteByPrimaryKey",
+				data:{orderno},
+				dataType:"text",
+				success:function(){
+					$(obj).parents("tr").remove();
+				}
+			});
+				
+		}
+		//选中所有订单
+		function selectAll(){
+			var boxes = document.getElementsByName("check_status");
+			if(document.getElementById("selectAllBox").checked){
+				for(i=0;i<boxes.length;i++){
+					boxes[i].checked=true;
+				}
+			}else{
+				for(i=0;i<boxes.length;i++){
+					boxes[i].checked=false;
+				}
+			}
+		}
+	</script>
+	</body>
+</html>

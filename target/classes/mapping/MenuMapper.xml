@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.restaurant.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.test.restaurant.bean.Menu">
+    <id column="foodID" jdbcType="INTEGER" property="foodid" />
+    <result column="foodName" jdbcType="VARCHAR" property="foodname" />
+    <result column="pictureUrl" jdbcType="VARCHAR" property="pictureurl" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    foodID, foodName, pictureUrl, price, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where foodID = #{foodID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where foodID = #{foodid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.restaurant.bean.Menu">
+    insert into menu (foodID, foodName, pictureUrl, 
+      price, status)
+    values (#{foodid,jdbcType=INTEGER}, #{foodname,jdbcType=VARCHAR}, #{pictureurl,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.restaurant.bean.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="foodid != null">
+        foodID,
+      </if>
+      <if test="foodname != null">
+        foodName,
+      </if>
+      <if test="pictureurl != null">
+        pictureUrl,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="foodid != null">
+        #{foodid,jdbcType=INTEGER},
+      </if>
+      <if test="foodname != null">
+        #{foodname,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureurl != null">
+        #{pictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.restaurant.bean.Menu">
+    update menu
+    <set>
+      <if test="foodname != null">
+        foodName = #{foodname,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureurl != null">
+        pictureUrl = #{pictureurl,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where foodID = #{foodid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.restaurant.bean.Menu">
+    update menu
+    set foodName = #{foodname,jdbcType=VARCHAR},
+      pictureUrl = #{pictureurl,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT}
+    where foodID = #{foodid,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getFoodList" parameterType="com.test.restaurant.bean.Menu" resultMap="BaseResultMap">
+  
+  	select * from menu
+ 
+  </select>
+</mapper>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+          企业订餐管理系统
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    </head>
+    
+    <body>
+        <div class="x-body">
+            <blockquote class="layui-elem-quote">
+                <img src="./images/logo.png" class="layui-circle" style="width:50px;float:left">
+                <dl style="margin-left:80px; color:#019688">
+                <dt><span th:text="${manager.managername}"></span></dt>
+                <dt><span style="margin-left:0;">这个人很懒，什么也没留下！</span></dt>
+              </dl>
+            </blockquote>
+            <div class="pd-20">
+              <table  class="layui-table" lay-skin="line">
+                <tbody>
+                  <tr>
+                    <th>手机：</th>
+                    <td th:text="${manager.telephone}"></td>
+                  </tr>
+                  <tr>
+                    <th>邮箱：</th>
+                    <td th:text="${manager.email}"></td>
+                  </tr>
+                  <tr>
+                    <th>状态：</th>
+                    <td th:if="${manager.status eq 1}">正常</td>
+                  </tr>
+                  <tr>
+                    <th>注册时间：</th>
+                    <td th:text="${#calendars.format(manager.addtime,'yyyy-MM-dd')}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </body>
+</html>

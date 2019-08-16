@@ -1,0 +1,184 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            企业订餐管理系统
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="./css/x-admin.css" media="all">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </head>
+    <body>
+        <div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>菜品管理</cite></a>
+              <a><cite>菜品列表</cite></a>
+            </span>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+        </div>
+        <div class="x-body">
+            <xblock><button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除</button><button class="layui-btn" onclick="banner_add('添加菜品','food-add.html','600','500')"><i class="layui-icon">&#xe608;</i>添加</button><span class="x-right" style="line-height:40px" th:text="'共有数据  '+${menusize}+' 条'"></span></xblock>
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="" value="">
+                        </th>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            菜品名称
+                        </th>
+                        <th>
+                            价格
+                        </th>
+                        <th>
+                            显示状态
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="x-img">
+                    <tr th:each="menu:${menuList}">
+                        <td>
+                            <input type="checkbox" name="check_status" th:attr="value=${menu.foodid}">
+                        </td>
+                        <td th:text="${menu.foodid}"></td>
+ 						<td th:text="${menu.foodname}"></td>
+                    	<td th:text="${menu.price}"></td>
+                        <td th:if="${menu.status eq 1}" class="td-status">
+                            <span class="layui-btn layui-btn-normal layui-btn-mini">
+                                	已显示
+                            </span>
+                        </td>
+                        <td th:if="${menu.status eq 0}" class="td-status">
+                            <span class="layui-btn layui-btn-disabled layui-btn-mini">
+                            		不显示
+                            </span>
+                        </td>
+                        <td class="td-manage">
+                            <a th:if="${menu.status eq 1}" style="text-decoration:none" th:onclick="|banner_stop(this,${menu.foodid})|" href="javascript:;" title="不显示">
+                                <i class="layui-icon">&#xe601;</i>
+                            </a>
+                            <a th:if="${menu.status eq 0}" style="text-decoration:none" th:onclick="|banner_start(this,${menu.foodid})|" href="javascript:;" title="显示">
+                            	<i class="layui-icon">&#xe62f;</i>
+                            </a>
+                            <a title="编辑" href="javascript:;" th:onclick="|banner_edit('编辑','food-edit',${menu.foodid},'500','600')|"
+                            class="ml-5" style="text-decoration:none">
+                                <i class="layui-icon">&#xe642;</i>
+                            </a>
+                            <a title="删除" href="javascript:;" th:onclick="|banner_del(this,${menu.foodid})|" 
+                            style="text-decoration:none">
+                                <i class="layui-icon">&#xe640;</i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="page"></div>
+        </div>
+        <script src="./lib/layui/layui.js" charset="utf-8"></script>
+        <script src="./js/x-layui.js" charset="utf-8"></script>
+        <script>
+            layui.use(['laydate','element','laypage','layer'], function(){
+                $ = layui.jquery;//jquery
+              laypage = layui.laypage;//分页
+              layer = layui.layer;//弹出层
+              location.height
+            });
+
+            //批量删除提交
+            function delAll(){
+            	var status = document.getElementsByName("checkbox_status");
+                 layer.confirm('确认要删除吗？',function(index){
+                    //捉到所有被选中的，发异步进行删除
+                    $("input:checkbox[name=check_status]:checked").each(function(){
+                    	deleteFoods($(this),$(this).val())
+                    });
+                    layer.msg('删除成功', {icon: 1});
+                 });
+            } 
+             /*添加*/
+            function banner_add(title,url,w,h){
+                x_admin_show(title,url,w,h);
+            }
+             /*停用*/
+            function banner_stop(obj,id){
+                layer.confirm('确认不显示吗？',function(index){
+                	var foodid=id;
+                	var status=0;
+                    //发异步把用户状态进行更改
+                    $.ajax({
+                    	url:"updateStatusByPrimaryKey",
+                    	dataType:"text",
+                    	data:{"foodid":foodid,"status":status},
+                    	success:function(){
+                    		 location.replace(location.href);
+                    	}
+                    })
+                });
+            }
+
+            /*启用*/
+            function banner_start(obj,id){
+                layer.confirm('确认要显示吗？',function(index){
+                    //发异步把用户状态进行更改
+                	var foodid=id;
+                	var status=1;
+                    //发异步把用户状态进行更改
+                    $.ajax({
+                    	url:"updateStatusByPrimaryKey",
+                    	dataType:"text",
+                    	data:{"foodid":foodid,"status":status},
+                    	success:function(){
+                    		location.replace(location.href);
+                    	}
+                    })
+                });
+            }
+            // 编辑
+            function banner_edit (title,url,id,w,h) {
+                x_admin_show(title,url+'?foodid='+id,w,h); 
+            }
+            /*删除*/
+            function banner_del(obj,id){
+                layer.confirm('确认要删除吗？',function(index){
+                	var foodID=id;
+                    //发异步删除数据
+                    $.ajax({
+                    	url:"deleteByfoodID",
+                    	data:{foodID},
+                    	dataType:"json",
+                    	success:function(){
+                    		 layer.msg('已删除!',{icon:1,time:1000});
+                    		 $(obj).parents("tr").remove();  
+                    	}
+                    })
+                });
+            }
+            //批量删除调用函数
+            function deleteFoods(obj,id){
+            	var foodID = id;
+                $.ajax({
+                	url:"deleteByfoodID",
+                	data:{foodID},
+                	dataType:"json",
+                	success:function(){
+                		 $(obj).parents("tr").remove();  
+                	}
+                })
+            }
+            </script>
+    </body>
+</html>

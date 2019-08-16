@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>权限不足</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css">
+    body {
+      FONT-SIZE: 13pt;
+      COLOR: #842b00;
+      LINE-HEIGHT: 16pt;
+      FONT-FAMILY: "Tahoma", "宋体";
+      TEXT-DECORATION: none
+    }
+
+    a {
+      FONT-SIZE: 13pt;
+      COLOR: #842b00;
+      LINE-HEIGHT: 16pt;
+      FONT-FAMILY: "Tahoma", "宋体";
+      TEXT-DECORATION: none
+    }
+
+    a:hover {
+      FONT-SIZE: 13pt;
+      COLOR: #0188d2;
+      LINE-HEIGHT: 16pt;
+      FONT-FAMILY: "Tahoma", "宋体";
+      TEXT-DECORATION: underline
+    }
+
+    h1 {
+      FONT-SIZE: 25pt;
+      FONT-FAMILY: "Tahoma", "宋体"
+    }
+  </style>
+</head>
+
+<body topmargin="20">
+  <table cellspacing="0" width="680" align="center" border="0" cepadding="0" style="margin-top:150px">
+    <tbody>
+      <tr colspan="2">
+        <td><img align="middle" height="100" src="403.jpg" width="120"></td>
+        <td>
+          <h1>没有权限访问</h1>
+          错误 Require Permission Error：您正在访问的页面并不在您的可访问范围内。
+          <hr noshade="" size="0">
+          <p>系统将在<span id="second">3</span>秒后自动关闭该页面</p>
+          <hr noshade="" size="0">
+          <p>☉ 如果您对本站有任何疑问、意见、建议、咨询，请联系管理员</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script>
+    var time=3;
+    var timer = setInterval(function(){
+      document.getElementById("second").innerHTML=--time;
+      if(time<=0){
+        clearInterval(timer);
+		parent.$(".layui-tab-close").trigger('click');
+      }
+    },1000);
+  </script>
+</body>
+
+</html>

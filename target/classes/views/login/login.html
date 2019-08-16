@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>企业订餐管理系统</title>
+  <link rel="stylesheet" href="../css/login.css">
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/index.js"></script>
+  <script src="../lib/layui/layui.js" charset="utf-8"></script>
+</head>
+<body class="login-bg">
+    <div class="login">
+        <div class="message">企业订餐管理系统登录</div>
+        <div id="darkbannerwrap"></div>   
+        <form method="post" class="layui-form" >
+            <input name="username" placeholder="手机号/邮箱"  type="text" lay-verify="username" class="layui-input" >
+            <hr class="hr15">
+            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input type="radio" name="identity" value="Manager" title="管理员" checked="checked">
+			<input type="radio" name="identity" value="User" title="员工">
+			<hr class="hr15">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
+    </div>
+    <script>
+            layui.use(['form'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form(),
+                layer = layui.layer;
+				form.verify({
+					username:function(value,item){
+						if(!(/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(value)) && !(/^1[34578]\d{9}$/.test(value))){
+							return "请输入正确的手机号或邮箱";
+						}
+					}
+				});
+                //监听提交
+                form.on('submit(login)',
+                function(data) {
+                    $.ajax({
+                    	type:"POST",
+                    	url:"logincheck",
+                    	data:data.field,
+                    	success:function(res){
+                    		if(res.status=="success"){
+                    			window.location="/index.html";
+                    		}else if(res.status=="fail"){
+                    			if(res.data.errorCode=="10001"){
+                    				layer.alert("不合法的输入");
+                    			}else {
+									layer.alert(res.data.errorMessage);
+                    			}
+                    		}
+                    	}
+                    });
+                    return false;
+                });
+            });
+        </script>
+    <!-- 底部结束 -->
+    
+</body>
+</html>

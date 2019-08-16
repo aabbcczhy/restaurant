@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.restaurant.dao.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.test.restaurant.bean.OrderDetail">
+    <id column="detailID" jdbcType="INTEGER" property="detailid" />
+    <result column="foodID" jdbcType="INTEGER" property="foodid" />
+    <result column="orderNo" jdbcType="INTEGER" property="orderno" />
+    <result column="ordernum" jdbcType="INTEGER" property="ordernum" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detailID, foodID, orderNo, ordernum, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orderDetail
+    where detailID = #{detailid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orderDetail
+    where detailID = #{detailid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.restaurant.bean.OrderDetail">
+    insert into orderDetail (detailID, foodID, orderNo, 
+      ordernum, price)
+    values (#{detailid,jdbcType=INTEGER}, #{foodid,jdbcType=INTEGER}, #{orderno,jdbcType=INTEGER}, 
+      #{ordernum,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.restaurant.bean.OrderDetail">
+    insert into orderDetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detailid != null">
+        detailID,
+      </if>
+      <if test="foodid != null">
+        foodID,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detailid != null">
+        #{detailid,jdbcType=INTEGER},
+      </if>
+      <if test="foodid != null">
+        #{foodid,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.restaurant.bean.OrderDetail">
+    update orderDetail
+    <set>
+      <if test="foodid != null">
+        foodID = #{foodid,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where detailID = #{detailid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.restaurant.bean.OrderDetail">
+    update orderDetail
+    set foodID = #{foodid,jdbcType=INTEGER},
+      orderNo = #{orderno,jdbcType=INTEGER},
+      ordernum = #{ordernum,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL}
+    where detailID = #{detailid,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByOrderno" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  
+  	select * from orderDetail where orderNo = #{orderno}
+  
+  </select>
+</mapper>

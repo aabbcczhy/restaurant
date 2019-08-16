@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>企业订餐管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header header header-demo">
+      <div class="layui-main">
+        <div class="admin-logo-box">
+          <a class="logo" href="javascript:void(0);" title="企业订餐管理系统">企业订餐管理系统</a>
+        </div>
+        <ul class="layui-nav" lay-filter="">
+          <li class="layui-nav-item"><img src="./images/logo.png" class="layui-circle"
+              style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
+          <li class="layui-nav-item"> <a href="javascript:;" th:text="${session.name}"></a>
+            <dl class="layui-nav-child">
+              <!-- 二级菜单 -->
+              <dd><a href="javascript:;" id="personal-info">个人信息</a></dd>
+              <dd><a href="./login/logout">退出</a></dd>
+            </dl>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="layui-side layui-bg-black x-side">
+      <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="side">
+          <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon"
+                style="top: 3px;">&#xe62d;</i><cite>菜单管理</cite></a>
+            <dl class="layui-nav-child">
+              <dd class="">
+              <dd class=""><a href="javascript:;" _href="./food-list"><cite>菜品列表</cite></a></dd>
+              </dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon"
+                style="top: 3px;">&#xe642;</i><cite>订单管理</cite> </a>
+            <dl class="layui-nav-child">
+              <dd class="">
+              <dd class=""> <a href="javascript:;" _href="./order-list"> <cite>订单列表</cite> </a> </dd>
+              </dd>
+            </dl>
+          </li>        <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon"
+                style="top: 3px;">&#xe612;</i><cite>用户管理</cite> </a>
+            <dl class="layui-nav-child">
+              <dd class=""> <a href="javascript:;" _href="./member-list"> <cite>用户列表</cite> </a> </dd>
+             
+            </dl>
+          </li>
+          <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon"
+                style="top: 3px;">&#xe770;</i><cite>管理员管理</cite> </a>
+            <dl class="layui-nav-child">
+              <dd class=""> <a href="javascript:;" _href="./admin-list"> <cite>管理员列表</cite> </a> </dd>
+              <dd class=""> <a href="javascript:;" _href="./admin-role"> <cite>角色管理</cite> </a> </dd>
+              <dd class=""> <a href="javascript:;" _href="./admin-rule"> <cite>权限管理</cite> </a> </dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item" style="height: 30px; text-align: center"> </li>
+        </ul>
+      </div>
+    </div>
+    <div class="layui-tab layui-tab-card site-demo-title x-main" lay-filter="x-tab" lay-allowclose="true"
+      style="left: 200px">
+      <ul class="layui-tab-title">
+        <li class="layui-this"> 主页 <i class="layui-icon layui-unselect layui-tab-close"></i></li>
+      </ul>
+      <div class="layui-tab-content site-demo site-demo-body">
+        <div class="layui-tab-item layui-show">
+          <iframe frameborder="0" src="./welcome.html" class="x-iframe"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="site-mobile-shade"> </div>
+    <div class="layui-footer footer footer-demo">
+      <div class="layui-main">
+        <p>Copyright ©2019 兰8-207 All Rights Reserved.</p>
+      </div>
+    </div>
+  </div>
+  <script src="./lib/layui/layui.js" charset="utf-8"></script>
+  <script src="./js/x-admin.js"></script>
+  <script>
+	layui.use('layer',function(){
+		$ = layui.jquery;
+		$(document).on('click','#personal-info',function(){
+			layer.open({
+				type: 2,
+				area: ['420px', '450px'],
+				fix: false, //不固定
+				maxmin: true,
+				shadeClose: true,
+				shade:0.4,
+				title: '个人信息',
+				content: "manager-show"
+			});
+	 	});
+	});
+  </script>
+</body>
+
+</html>

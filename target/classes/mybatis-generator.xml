@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+  	<commentGenerator>
+		<!-- 去除自动生成的注释 -->
+		<property name="suppressAllComments" value="true" />
+	</commentGenerator>
+  	<!-- 数据库链接地址账号密码 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://111.230.10.191:3306/restaurant?useSSL=false"
+        userId="restuser"
+        password="123456">
+    </jdbcConnection>
+	<!-- 生成实体类存放位置 -->
+    <javaModelGenerator targetPackage="com.test.restaurant.bean" targetProject="restaurant/src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+	<!-- 生成映射文件存放位置 -->
+    <sqlMapGenerator targetPackage="mapping"  targetProject="restaurant/src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+	<!-- 生成Dao类存放位置 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.test.restaurant.dao"  targetProject="restaurant/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+    
+	<!-- 生成对应的表及其类名 -->
+    <table tableName="authority" domainObjectName="Authority" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="empower" domainObjectName="Empower" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="manager" domainObjectName="Manager" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="managerpassword" domainObjectName="Managerpassword" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="menu" domainObjectName="Menu" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="orderDetail" domainObjectName="OrderDetail" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="orderMaster" domainObjectName="OrderMaster" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="role" domainObjectName="Role" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="user" domainObjectName="User" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+    <table tableName="userpassword" domainObjectName="Userpassword" enableCountByExample="false"
+    	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+    	selectByExampleQueryId="false" ></table>
+  </context>
+</generatorConfiguration>

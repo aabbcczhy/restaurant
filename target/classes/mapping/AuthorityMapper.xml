@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.restaurant.dao.AuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.test.restaurant.bean.Authority">
+    <id column="authorityID" jdbcType="INTEGER" property="authorityid" />
+    <result column="authorityName" jdbcType="VARCHAR" property="authorityname" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    authorityID, authorityName, description
+  </sql>
+  <select id="getByRole" parameterType="java.lang.String" resultType="java.lang.String">
+  	select authorityName from authority
+  	where authorityID in (select authorityID from empower where roleID in
+  	(select roleID from role where roleName=#{role,jdbcType=VARCHAR}))
+  </select>
+  <select id="queryAuthorities" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from authority
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from authority
+    where authorityID = #{authorityid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from authority
+    where authorityID = #{authorityid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.restaurant.bean.Authority">
+    insert into authority (authorityID, authorityName, description
+      )
+    values (#{authorityid,jdbcType=INTEGER}, #{authorityname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.restaurant.bean.Authority">
+    insert into authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authorityid != null">
+        authorityID,
+      </if>
+      <if test="authorityname != null">
+        authorityName,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authorityid != null">
+        #{authorityid,jdbcType=INTEGER},
+      </if>
+      <if test="authorityname != null">
+        #{authorityname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.restaurant.bean.Authority">
+    update authority
+    <set>
+      <if test="authorityname != null">
+        authorityName = #{authorityname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where authorityID = #{authorityid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.restaurant.bean.Authority">
+    update authority
+    set authorityName = #{authorityname,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where authorityID = #{authorityid,jdbcType=INTEGER}
+  </update>
+</mapper>
